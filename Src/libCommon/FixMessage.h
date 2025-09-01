@@ -3,8 +3,7 @@
 #include <string>
 #include <sstream>
 #include <optional>
-
-#include <iostream>>
+#include <iostream>
 
 class FixMessage {
     std::unordered_map<int, std::string> _fields;
@@ -30,12 +29,12 @@ public:
     We need specilization for std::string because, 
     std::istringstream >> std::string only reads upto the first whitespace.
     */
-    template<>
-    std::optional<std::string> getField<std::string>(int tag) const {
-        auto it = _fields.find(tag);
-        if (it == _fields.end()) return std::nullopt;
-        return it->second;
-    }
+    // template<>
+    // std::optional<std::string> getField<std::string>(int tag) const {
+    //     auto it = _fields.find(tag);
+    //     if (it == _fields.end()) return std::nullopt;
+    //     return it->second;
+    // }
 
     void print() const;
 };

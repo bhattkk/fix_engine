@@ -1,7 +1,7 @@
 #include "FixMessage.h"
 #include "FixParser.h"
 
-FixMessage FixParser::ParseFixMessage(const std::string& raw, char delimiter = '\x01') 
+FixMessage FixParser::ParseFixMessage(const std::string& raw, char delimiter) 
 {
     FixMessage msg;
     size_t start = 0;

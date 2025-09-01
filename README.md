@@ -66,13 +66,13 @@
 
 
 Src/
-├── Common/             # Shared data models
+├── libCommon/             # Shared data models
 │   └── FixMessage.h
 ├── Interfaces/         # Abstract interfaces
 │   └── IFixParser.h
-├── Parser/             # Concrete parser implementation
+├── libParser/             # Concrete parser implementation
 │   └── FixParser.cpp
-├── Transport/          # TCP session management (optional)
-├── Dispatcher/         # Message routing (optional)
-├── Encoder/            # Outbound message formatter
-└── Main/               # Entry point or CLI/test harness
+├── libTransport/          # TCP session management (optional)
+├── libDispatcher/         # Message routing (optional)
+├── libEncoder/            # Outbound message formatter
+└── FixApp/               # Entry point or CLI/test harness
