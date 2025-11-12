@@ -81,5 +81,7 @@ Src/
 - **Memory pool:**
       Does it make sense to create a memory pool per object or generic or both
       What type os memory pools make sense
+- **Lock-Free Queue:**
+      Should it single consumer single producer or multiple consumer multiple producer or both
+- **Low Latency Logging System**
   
-
