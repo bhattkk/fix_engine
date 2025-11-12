@@ -64,7 +64,7 @@
 - **Aeron + Agrona:** High-performance messaging stack (Java).
 - **Disruptor Pattern:** Low-latency ring buffer design from LMAX.
 
-
+# Folder Structure
 Src/
 ├── libCommon/             # Shared data models
 │   └── FixMessage.h
@@ -76,3 +76,10 @@ Src/
 ├── libDispatcher/         # Message routing (optional)
 ├── libEncoder/            # Outbound message formatter
 └── FixApp/               # Entry point or CLI/test harness
+
+# Common Features Used 
+- **Memory pool:**
+      Does it make sense to create a memory pool per object or generic or both
+      What type os memory pools make sense
+  
+
