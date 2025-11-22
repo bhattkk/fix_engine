@@ -14,12 +14,14 @@ else()
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Scan Src/* and add any subdir that contains a CMakeLists.txt
-file(GLOB _children LIST_DIRECTORIES true "${CMAKE_SOURCE_DIR}/Src/*")
-foreach(_path IN LISTS _children)
-  if(EXISTS "${_path}/CMakeLists.txt")
-    get_filename_component(_name "${_path}" NAME)
-    message(STATUS "Adding subdirectory: Src/${_name}")
-    add_subdirectory("Src/${_name}")
-  endif()
+# Recursively add all subdirectories containing CMakeLists.txt under Src
+file(GLOB_RECURSE _cmake_files
+     RELATIVE "${CMAKE_SOURCE_DIR}"
+     "${CMAKE_SOURCE_DIR}/Src/**/CMakeLists.txt")
+
+foreach(_cmake IN LISTS _cmake_files)
+    get_filename_component(_dir "${_cmake}" DIRECTORY)
+    message(STATUS "Adding subdirectory: ${_dir}")
+    add_subdirectory("${_dir}")
 endforeach()
+

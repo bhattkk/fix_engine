@@ -4,7 +4,7 @@ add_library(libCommon ${SRC_FILES})
 
 target_include_directories(libCommon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Require C++17 for this target
-target_compile_features(libCommon PUBLIC cxx_std_17)
+target_compile_features(libCommon PUBLIC cxx_std_23)
 
 # Link to header-only deps
 target_link_libraries(libCommon
