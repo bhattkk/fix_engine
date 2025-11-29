@@ -1,21 +1,16 @@
 file(GLOB SRC_FILES "*.cpp")
 
-add_library(libCommon ${SRC_FILES})
+add_library(Common ${SRC_FILES})
 
-target_include_directories(libCommon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-# Require C++17 for this target
-target_compile_features(libCommon PUBLIC cxx_std_23)
+# Making this public so that any target linking to Common also gets the include dirs
+target_include_directories(Common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Link to header-only deps
-target_link_libraries(libCommon
+target_link_libraries(Common
   PUBLIC
     Interfaces
 )
 
-# If you want to avoid the double "lib" prefix on Unix (liblibCommon.a),
-# rename the OUTPUT_NAME to "Common" so the file becomes libCommon.a
-set_target_properties(libCommon PROPERTIES
-  OUTPUT_NAME "Common"            # produces libCommon.a / Common.lib
+set_target_properties(Common PROPERTIES
   VERSION ${PROJECT_VERSION}
   SOVERSION ${PROJECT_VERSION_MAJOR}
 )

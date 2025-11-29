@@ -19,10 +19,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
   # Create an executable for each test source file
   add_executable(${TEST_NAME} ${TEST_SOURCE})
 
-  # Link the test executable to the libCommon library and gtest libraries
-  target_link_libraries(${TEST_NAME} PRIVATE libCommon gtest gtest_main)
-
-  # Optionally, set C++ standard if needed
-  target_compile_features(${TEST_NAME} PRIVATE cxx_std_23)
+  # Link the test executable to the Common library and gtest libraries
+  target_link_libraries(${TEST_NAME} PRIVATE Common gtest gtest_main)
 
 endforeach()
