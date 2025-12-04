@@ -42,12 +42,14 @@ public:
 
     ~StaticMemoryPool() {
         // Call destructors for all allocated objects
-        // for (size_t i = 0; i < N; ++i) {
-        //     if (_allocated[i]) {
-        //         T* obj = reinterpret_cast<T*>(_buffer + i * sizeof(T));
-        //         obj->~T();
-        //     }
-        // }
+        for (size_t i = 0; i < N; ++i) {
+            int chunkIndex = i / CHUNK_SIZE;
+            int bitIndex = i % CHUNK_SIZE;
+            if (bitmasks[chunkIndex] & (1ULL << bitIndex)) {
+                T* obj = reinterpret_cast<T*>(_buffer + i * sizeof(T));
+                obj->~T();
+            }
+        }
     }
 
     template<typename... Args>

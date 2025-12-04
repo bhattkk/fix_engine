@@ -116,7 +116,23 @@ TEST(MemoryPoolTest, StaticMemoryPoolAllocationDeallocation) {
     }
     pool.free(obj129);
     currentDestructorCount++;
-    EXPECT_EQ(TestObject::destructorCallCount, currentDestructorCount);    
+    EXPECT_EQ(TestObject::destructorCallCount, currentDestructorCount);
+    
+    
+    {
+        // Destructor of pool should not double free objects
+        StaticMemoryPool<TestObject, 64> smallPool;
+        TestObject* to1 = smallPool.alloc(10, "ten");
+        smallPool.alloc(20, "twenty"); // to2
+        smallPool.alloc(30, "thirty"); // to3
+        smallPool.alloc(40, "forty"); // to4
+        smallPool.free(to1);
+        currentDestructorCount++;
+        EXPECT_EQ(TestObject::destructorCallCount, currentDestructorCount);
+        // smallPool goes out of scope here 
+    }
+    currentDestructorCount += 3; // to2, to3, to4 destructors called
+    EXPECT_EQ(TestObject::destructorCallCount, currentDestructorCount);
 }
 
 TEST(MemoryPoolTest, HeapMemoryPoolBasicAllocationDeallocation) {
