@@ -1,0 +1,64 @@
+{
+  "context": {
+    "date": "2025-12-05T08:26:04+05:30",
+    "host_name": "kamals-MacBook-Air.local",
+    "executable": "./bin/MemoryPool.bench",
+    "num_cpus": 8,
+    "mhz_per_cpu": 24,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 65536,
+        "num_sharing": 0
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 131072,
+        "num_sharing": 0
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 4194304,
+        "num_sharing": 1
+      }
+    ],
+    "load_avg": [2.34473,1.93652,2.06738],
+    "library_version": "v1.9.4",
+    "library_build_type": "debug",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "BM_StaticMemoryPoolAllocFree",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_StaticMemoryPoolAllocFree",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 59412,
+      "real_time": 1.1637729616268065e+04,
+      "cpu_time": 1.1637733117888640e+04,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_NewDelete",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_NewDelete",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 26028,
+      "real_time": 2.6974437758916923e+04,
+      "cpu_time": 2.6957545719993872e+04,
+      "time_unit": "ns"
+    }
+  ]
+}

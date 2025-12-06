@@ -19,18 +19,42 @@ static void BM_StaticMemoryPoolAllocFree(benchmark::State& state) {
     StaticMemoryPool<TestObject, 1024> pool;
 
     for (auto _ : state) {
-        TestObject* p = pool.alloc(42, "benchmark_object");
-        benchmark::DoNotOptimize(p);
-        pool.free(p);
+        std::vector<TestObject*> pointers;
+        for (int i=0; i < 1000; ++i) {
+            TestObject* p = pool.alloc(42, "benchmark_object");
+            pointers.push_back(p);
+        }
+        benchmark::DoNotOptimize(pointers);
+        // delete odd numbers
+        for (int i = 1; i < 1000; i += 2) {
+            pool.free(pointers[i]);
+            pointers[i] = pool.alloc(43, "realloc_object");
+        }
+        // delete even numbers
+        for (int i = 0; i < 1000; i++) {
+            pool.free(pointers[i]);
+        }
     }
 }
 BENCHMARK(BM_StaticMemoryPoolAllocFree);
 
 static void BM_NewDelete(benchmark::State& state) {
     for (auto _ : state) {
-        TestObject* p = new TestObject(42, "heap");
-        benchmark::DoNotOptimize(p);
-        delete p;
+        std::vector<TestObject*> pointers;
+        for (int i=0; i < 1000; ++i) {
+            TestObject* p = new TestObject(42, "benchmark_object");
+            pointers.push_back(p);
+        }
+        benchmark::DoNotOptimize(pointers);
+        // delete odd numbers
+        for (int i = 1; i < 1000; i += 2) {
+            delete pointers[i];
+            pointers[i] = new TestObject(43, "realloc_object");
+        }
+        // delete even numbers
+        for (int i = 0; i < 1000; i++) {
+            delete pointers[i];
+        }
     }
 }
 BENCHMARK(BM_NewDelete);

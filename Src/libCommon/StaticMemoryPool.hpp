@@ -1,10 +1,11 @@
 #pragma once
-#include <cstddef>
-#include <new>
-#include <type_traits>
-#include <stdexcept>
 #include "Macros.h"
 #include <concepts>
+#include <type_traits>
+#include <cstddef>
+#include <stdexcept>
+using byte = std::byte;
+
 
 template <size_t N>
 concept Multipleof64 = ((N % 64) == 0 && N > 0);
@@ -25,7 +26,7 @@ class StaticMemoryPool {
     //   - alignas(alignof(T)) enforces this alignment at compile time with zero runtime cost.
     // In summary: This ensures the buffer can safely store N objects of type T using
     // placement new, with each object meeting T's alignment requirements.
-    alignas(alignof(T)) std::byte _buffer[N * sizeof(T)];
+    alignas(alignof(T)) byte _buffer[N * sizeof(T)];
 
     static constexpr size_t CHUNK_SIZE = 64;
 
