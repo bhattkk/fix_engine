@@ -24,6 +24,9 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
   # Create an executable for each test source file
   add_executable(${TEST_NAME} ${TEST_SOURCE})
 
+  target_compile_options(${TEST_NAME} PRIVATE -fsanitize=thread -g)
+  target_link_options(${TEST_NAME} PRIVATE -fsanitize=thread)
+
   # Link the test executable to the Common library and gtest libraries
   target_link_libraries(${TEST_NAME} PRIVATE Common gtest gtest_main)
 

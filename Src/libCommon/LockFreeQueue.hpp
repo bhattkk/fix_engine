@@ -4,49 +4,66 @@
 #include <concepts>
 #include <expected>
 
+
+// Memory order explanations:
+// https://stackoverflow.com/questions/12346487/what-do-each-memory-order-mean/70585811#70585811
+
 template <size_t N>
 concept NonZero = (N > 0);
 
+template <size_t N>
+concept PowerOfTwo = (N & (N - 1)) == 0;
+
+template<size_t N>
+concept ValidSize = NonZero<N> && PowerOfTwo<N>;
+
+template <typename T>
+concept ValidQueueElement =
+    std::default_initializable<T> &&
+    std::copyable<T> &&
+    std::movable<T> &&
+    std::assignable_from<T&, const T&> &&
+    std::assignable_from<T&, T&&>; 
+
 template<typename T, size_t N>
-requires NonZero<N>
+requires ValidSize<N> && ValidQueueElement<T>
 class LockFreeQueue {
 public:
-    explicit LockFreeQueue() : _head(0), _tail(0) {
-    }
+    LockFreeQueue() = default;
     LockFreeQueue(const LockFreeQueue&) = delete;
     LockFreeQueue& operator=(const LockFreeQueue&) = delete;
     LockFreeQueue(LockFreeQueue&&) = delete;
     LockFreeQueue& operator=(LockFreeQueue&&) = delete;
     ~LockFreeQueue() = default;
 
-
     std::expected<bool, std::string> enqueue(const T& item) {
-        size_t tail = _tail.load(std::memory_order_relaxed);
-        size_t nextTail = (tail + 1) % N;
+        size_t t = _tail.load(std::memory_order_relaxed);
+        size_t h = _head.load(std::memory_order_acquire);
 
-        if (nextTail == _head.load(std::memory_order_acquire)) {
+        if (((t + 1) % N) == h)
             return std::unexpected("LockFreeQueue: Queue is full");
-        }
 
-        _buffer[tail] = item;
-        _tail.store(nextTail, std::memory_order_release);
+        _buffer[t] = (item);                  // safe: only producer writes t
+
+        _tail.store((t + 1) & (N - 1), std::memory_order_release);
         return true;
     }
 
     std::expected<bool, std::string> dequeue(T& item) {
-        size_t head = _head.load(std::memory_order_relaxed);
+        size_t h = _head.load(std::memory_order_relaxed);
+        size_t t = _tail.load(std::memory_order_acquire);
 
-        if (head == _tail.load(std::memory_order_acquire)) {
+        if (h == t)
             return std::unexpected("LockFreeQueue: Queue is empty");
-        }
 
-        item = _buffer[head];
-        _head.store((head + 1) % N, std::memory_order_release);
+        item = (_buffer[h]);                 // safe: only consumer reads h
+
+        _head.store((h + 1) & (N - 1), std::memory_order_release);
         return true;
     }
 
 private:
-    std::atomic<size_t> _head;
-    std::atomic<size_t> _tail;
+    std::atomic<size_t> _head = 0;
+    std::atomic<size_t> _tail = 0;
     std::array<T, N> _buffer;
 };

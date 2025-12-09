@@ -7,6 +7,7 @@
 namespace {
     class TestObject {
     public:
+
         explicit TestObject(int integer, std::string str) : _intParam(integer), _strParam(str) {}
         int intParam() const { return _intParam; }
         std::string strParam() const { return _strParam; }
@@ -15,7 +16,14 @@ namespace {
             destructorCallCount++;
         }
 
+        // Static member to track destructor calls
         static int destructorCallCount;
+
+        // Making sure no implicit copy/move operations.
+        TestObject(const TestObject&) = delete;
+        TestObject& operator=(const TestObject&) = delete;
+        TestObject(TestObject&&) = delete;
+        TestObject& operator=(TestObject&&) = delete;
     private:  
         int _intParam;
         std::string _strParam;
