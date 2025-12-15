@@ -25,6 +25,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
 
+# Suggested by chatgpt to enable debugging in vs-code
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Recursively add submodules under Src/
 file(GLOB_RECURSE _cmake_files

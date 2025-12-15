@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "github.copilot",
+    "github.copilot-chat",
+    "github.copilot-labs", 
+    "matthewevers.compiler-explorer",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode.cmake-tools",
+    "ms-vscode.cpptools",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cpptools-themes",
+    "ms-vsliveshare.vsliveshare"
+  ]
+}
