@@ -1,0 +1,65 @@
+{
+  "context": {
+    "date": "2025-12-15T18:35:10+05:30",
+    "host_name": "kamals-MacBook-Air.local",
+    "executable": "./build/bin/LockFreeQueue.bench",
+    "num_cpus": 8,
+    "mhz_per_cpu": 24,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 65536,
+        "num_sharing": 0
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 131072,
+        "num_sharing": 0
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 4194304,
+        "num_sharing": 1
+      }
+    ],
+    "load_avg": [1.66211,1.69629,1.56738],
+    "library_version": "v1.9.4",
+    "library_build_type": "debug",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "BM_EnqueueDequeue/real_time/threads:2",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_EnqueueDequeue/real_time/threads:2",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 2,
+      "iterations": 20086804,
+      "real_time": 3.8634676123816007e+01,
+      "cpu_time": 3.8623217511357197e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_LockFreeQueue_ProdCons/real_time/threads:2",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_LockFreeQueue_ProdCons/real_time/threads:2",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 2,
+      "iterations": 33266868,
+      "real_time": 2.1589516149823197e+01,
+      "cpu_time": 2.1589799196004865e+01,
+      "time_unit": "ns",
+      "items_per_second": 5.6158959652102850e+06
+    }
+  ]
+}

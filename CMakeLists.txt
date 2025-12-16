@@ -7,6 +7,8 @@ set(CMAKE_BUILD_TYPE Debug CACHE STRING "" FORCE)
 
 # Global warnings
 add_compile_options(-Wall -Wextra -Wpedantic)
+add_compile_definitions(SOURCE_ROOT="${CMAKE_SOURCE_DIR}")
+add_compile_definitions(LOG_FILE_NAME="fix_engine")
 
 # Global output folders (NO need to repeat anywhere)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)  # .a / .lib

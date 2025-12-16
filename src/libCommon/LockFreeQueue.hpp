@@ -3,7 +3,7 @@
 #include <array>
 #include <concepts>
 #include <expected>
-
+#include "Macros.h"
 
 // Memory order explanations:
 // https://stackoverflow.com/questions/12346487/what-do-each-memory-order-mean/70585811#70585811
@@ -15,15 +15,11 @@ template <size_t N>
 concept PowerOfTwo = (N & (N - 1)) == 0;
 
 template<size_t N>
-concept ValidSize = NonZero<N> && PowerOfTwo<N>;
+concept ValidSize = NonZero<N> && PowerOfTwo<N> ;
 
 template <typename T>
 concept ValidQueueElement =
-    std::default_initializable<T> &&
-    std::copyable<T> &&
-    std::movable<T> &&
-    std::assignable_from<T&, const T&> &&
-    std::assignable_from<T&, T&&>; 
+    std::default_initializable<T>;
 
 template<typename T, size_t N>
 requires ValidSize<N> && ValidQueueElement<T>
@@ -43,7 +39,7 @@ public:
         if (((t + 1) % N) == h)
             return std::unexpected("LockFreeQueue: Queue is full");
 
-        _buffer[t] = (item);                  // safe: only producer writes t
+        memcpy(&_buffer[t], &item, sizeof(T));
 
         _tail.store((t + 1) & (N - 1), std::memory_order_release);
         return true;
@@ -56,7 +52,7 @@ public:
         if (h == t)
             return std::unexpected("LockFreeQueue: Queue is empty");
 
-        item = (_buffer[h]);                 // safe: only consumer reads h
+        memcpy(&item, &_buffer[h], sizeof(T)); // safe: only consumer reads h
 
         _head.store((h + 1) & (N - 1), std::memory_order_release);
         return true;

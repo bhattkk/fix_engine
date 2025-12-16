@@ -10,8 +10,8 @@ fi
 
 # TODO - Create global env variables and use those instead of relative paths
 TEST_NAME="$1"
-BENCH_BIN="../build/bin/${TEST_NAME}.bench"
-OUT_DIR="../benchmarks"
+BENCH_BIN="./build/bin/${TEST_NAME}.bench"
+OUT_DIR="./benchmarks"
 
 if [ ! -x "$BENCH_BIN" ]; then
     echo "❌ Benchmark binary not found or not executable:"

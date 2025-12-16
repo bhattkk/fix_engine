@@ -24,10 +24,10 @@ namespace {
 
         ~ComplexStruct() = default;
         // Making sure no implicit copy/move operations.
-        ComplexStruct(const ComplexStruct&) = default;
-        ComplexStruct& operator=(const ComplexStruct&) = default;
-        ComplexStruct(ComplexStruct&&) = default;
-        ComplexStruct& operator=(ComplexStruct&&) = default;
+        ComplexStruct(const ComplexStruct&) = delete;
+        ComplexStruct& operator=(const ComplexStruct&) = delete;
+        ComplexStruct(ComplexStruct&&) = delete;
+        ComplexStruct& operator=(ComplexStruct&&) = delete;
     };
 } 
 
@@ -62,7 +62,8 @@ static void BM_LockFreeQueue_ProdCons(benchmark::State& state) {
     }
 
     for (auto _ : state) {
-        if (state.thread_index() == 0) {
+        int thread_idx = state.thread_index();
+        if (thread_idx % 2 == 0) {
             // Producer
             if (q.enqueue(value)) {
                 ++value;
@@ -79,6 +80,6 @@ static void BM_LockFreeQueue_ProdCons(benchmark::State& state) {
 
     state.SetItemsProcessed(ops);
 }
-BENCHMARK(BM_LockFreeQueue_ProdCons)->Threads(2)->UseRealTime();
+BENCHMARK(BM_LockFreeQueue_ProdCons)->Threads(2)->Threads(4)->Threads(8)->Threads(16)->UseRealTime();
 
 BENCHMARK_MAIN();

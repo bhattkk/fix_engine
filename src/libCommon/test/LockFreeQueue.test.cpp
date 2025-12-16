@@ -22,10 +22,10 @@ namespace {
 
         ~ComplexStruct() = default;
         // Making sure no implicit copy/move operations.
-        ComplexStruct(const ComplexStruct&) = default;
-        ComplexStruct& operator=(const ComplexStruct&) = default;
-        ComplexStruct(ComplexStruct&&) = default;
-        ComplexStruct& operator=(ComplexStruct&&) = default;
+        ComplexStruct(const ComplexStruct&) = delete;
+        ComplexStruct& operator=(const ComplexStruct&) = delete;
+        ComplexStruct(ComplexStruct&&) = delete;
+        ComplexStruct& operator=(ComplexStruct&&) = delete;
     };
 } 
 
